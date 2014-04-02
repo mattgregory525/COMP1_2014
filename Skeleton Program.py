@@ -76,9 +76,16 @@ def DisplayMenu():
   print('Select an option from the menu (or enter q to quit): ', end='')
 
 def GetMenuChoice():
+  Options = ["Q","q","Quit"]
   Choice = input()
   print()
-  return Choice
+  if Choice in Options:
+    Choice = "q"
+    return Choice
+
+  elif Choice in range(0,4):
+    return Choice
+  
 
 def LoadDeck(Deck):
   CurrentFile = open('deck.txt', 'r')
