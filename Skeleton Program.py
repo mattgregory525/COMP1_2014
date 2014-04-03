@@ -76,15 +76,15 @@ def DisplayMenu():
   print('Select an option from the menu (or enter q to quit): ', end='')
 
 def GetMenuChoice():
-  Options = ["Q","q","Quit"]
-  Choice = input()
-  print()
-  if Choice in Options:
-    Choice = "q"
-    return Choice
 
-  elif Choice in range(0,4):
-    return Choice
+  print()
+  Choice = input()
+  Choices = ["Q","Quit","quit"]
+  if Choice in Choices:
+    Choice = "q"
+  return Choice
+
+
   
 
 def LoadDeck(Deck):
