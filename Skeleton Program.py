@@ -134,10 +134,25 @@ def IsNextCardHigher(LastCard, NextCard):
   return Higher
 
 def GetPlayerName():
+<<<<<<< HEAD
+
+  Valid = False
+  while Valid == False:
+    PlayerName = input('Please enter your name: ')
+
+    if PlayerName == "":
+      print("You must enter a name:" )
+    else:
+      Valid = True
+      return PlayerName
+
+  
+=======
   print()
   PlayerName = input('Please enter your name: ')
   print()
   return PlayerName
+>>>>>>> parent of 554d86d... Task 3 Complete
 
 def GetChoiceFromUser():
   Yes = ["y","Y","Yes","yes"]
