@@ -85,8 +85,6 @@ def GetMenuChoice():
   return Choice
 
 
-  
-
 def LoadDeck(Deck):
   CurrentFile = open('deck.txt', 'r')
   Count = 1
@@ -134,26 +132,19 @@ def IsNextCardHigher(LastCard, NextCard):
   return Higher
 
 def GetPlayerName():
-<<<<<<< HEAD
 
   Valid = False
   while Valid == False:
     PlayerName = input('Please enter your name: ')
-
     if PlayerName == "":
-      print("You must enter a name:" )
+       print()
+       print("You must enter a name:" )
+       print()
     else:
       Valid = True
       return PlayerName
 
   
-=======
-  print()
-  PlayerName = input('Please enter your name: ')
-  print()
-  return PlayerName
->>>>>>> parent of 554d86d... Task 3 Complete
-
 def GetChoiceFromUser():
   Yes = ["y","Y","Yes","yes"]
   No = ["n","N","No","no"]
@@ -196,21 +187,32 @@ def DisplayRecentScores(RecentScores):
   print()
 
 def UpdateRecentScores(RecentScores, Score):
-  PlayerName = GetPlayerName()
-  FoundSpace = False
-  Count = 1
-  while (not FoundSpace) and (Count <= NO_OF_RECENT_SCORES):
-    if RecentScores[Count].Name == '':
-      FoundSpace = True
-    else:
-      Count = Count + 1
-  if not FoundSpace:
-    for Count in range(1, NO_OF_RECENT_SCORES):
-      RecentScores[Count].Name = RecentScores[Count + 1].Name
-      RecentScores[Count].Score = RecentScores[Count + 1].Score
-    Count = NO_OF_RECENT_SCORES
-  RecentScores[Count].Name = PlayerName
-  RecentScores[Count].Score = Score
+  AddScore = input("Add name to scores? (Y/N):")
+  Yes = ["Y","y","Yes","yes"]
+  No = ["N","n","no","No"]
+  if AddScore in Yes:
+    PlayerName = GetPlayerName()
+    FoundSpace = False
+    Count = 1
+    while (not FoundSpace) and (Count <= NO_OF_RECENT_SCORES):
+      if RecentScores[Count].Name == '':
+        FoundSpace = True
+      else:
+        Count = Count + 1
+    if not FoundSpace:
+      for Count in range(1, NO_OF_RECENT_SCORES):
+        RecentScores[Count].Name = RecentScores[Count + 1].Name
+        RecentScores[Count].Score = RecentScores[Count + 1].Score
+      Count = NO_OF_RECENT_SCORES
+    RecentScores[Count].Name = PlayerName
+    RecentScores[Count].Score = Score
+  elif AddScore in No:
+    print("")
+    print("Score ignored")
+    print("")
+    
+    
+    
 
 def PlayGame(Deck, RecentScores):
   LastCard = TCard()
