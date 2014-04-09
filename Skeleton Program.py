@@ -176,15 +176,15 @@ def ResetRecentScores(RecentScores):
     RecentScores[Count].Score = 0
 
 def DisplayRecentScores(RecentScores):
-  print()
+  print("")
   print('Recent Scores: ')
-  print()
+  print("")
+  print("Name     Score")
   for Count in range(1, NO_OF_RECENT_SCORES + 1):
-    print(RecentScores[Count].Name, 'got a score of', RecentScores[Count].Score)
-  print()
+    print("{0}{1:>{2}}".format(RecentScores[Count].Name, RecentScores[Count].Score,12-(len(RecentScores[Count].Name))))
+    print()
   print('Press the Enter key to return to the main menu')
-  input()
-  print()
+  
 
 def UpdateRecentScores(RecentScores, Score):
   AddScore = input("Add name to scores? (Y/N):")
