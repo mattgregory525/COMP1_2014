@@ -175,15 +175,22 @@ def ResetRecentScores(RecentScores):
     RecentScores[Count].Name = ''
     RecentScores[Count].Score = 0
 
-def DisplayRecentScores(RecentScores):
+def Date():
+  import datetime
+  today = datetime.date.today()
+  return today
+ 
+def DisplayRecentScores(RecentScores,today):
   print("")
   print('Recent Scores: ')
   print("")
-  print("Name     Score")
+  print("Name     Score     Date".format(today))
   for Count in range(1, NO_OF_RECENT_SCORES + 1):
     print("{0}{1:>{2}}".format(RecentScores[Count].Name, RecentScores[Count].Score,12-(len(RecentScores[Count].Name))))
+    print ("Date saved:{:%d/%m/%y}".format(today))
     print()
   print('Press the Enter key to return to the main menu')
+  
   
 
 def UpdateRecentScores(RecentScores, Score):
@@ -259,6 +266,7 @@ if __name__ == '__main__':
       LoadDeck(Deck)
       PlayGame(Deck, RecentScores)
     elif Choice == '3':
-      DisplayRecentScores(RecentScores)
+      today = Date()
+      DisplayRecentScores(RecentScores,today)
     elif Choice == '4':
       ResetRecentScores(RecentScores)
