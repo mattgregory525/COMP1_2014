@@ -22,10 +22,14 @@ Deck = [None]
 RecentScores = [None]
 Choice = ''
 
-def GetRank(RankNo):
+def GetRank(RankNo,AceHigh):
+  
   Rank = ''
-  if RankNo == 1:
-    Rank = 'Ace'
+  if RankNo == 1 and AceHigh == False:
+    Rank = "Ace"
+  elif RankNo == 1 and AceHigh == True:
+    RankNo == 14
+    Rank = "Ace"
   elif RankNo == 2:
     Rank = 'Two'
   elif RankNo == 3:
@@ -51,6 +55,42 @@ def GetRank(RankNo):
   elif RankNo == 13:
     Rank = 'King'
   return Rank
+ 
+    
+
+def DisplayOptions():
+  print("Option menu")
+  print("")
+  print("1. Set Ace to be high/low")
+  print("")
+  GetOptionChoice()
+  
+  
+def GetOptionChoice():
+  Option = int(input(("Please enter your option: ")))
+  if Option == 1:
+    SetOptionsHighOrLow()
+  else:
+    print("error")
+  
+def SetOptionsHighOrLow():
+  Value = input("Set Ace (h)igh or (l)ow: ")
+  high = ["H","h","High","high"]
+  low = ["L","l","Low","low"]
+  done = False
+  while done == False:
+    if Value in high:
+      AceHigh = True
+      done = True
+    
+    elif Value in low:
+      AceHigh = False
+      done = True
+    
+    else:
+      print("Error")
+  return AceHigh
+
 
 def GetSuit(SuitNo):
   Suit = ''
@@ -72,6 +112,7 @@ def DisplayMenu():
   print('2. Play game (without shuffle)')
   print('3. Display recent scores')
   print('4. Reset recent scores')
+  print("5. Options")
   print()
   print('Select an option from the menu (or enter q to quit): ', end='')
 
@@ -111,9 +152,9 @@ def ShuffleDeck(Deck):
     Deck[Position2].Rank = SwapSpace.Rank
     Deck[Position2].Suit = SwapSpace.Suit
 
-def DisplayCard(ThisCard):
+def DisplayCard(ThisCard,AceHigh):
   print()
-  print('Card is the', GetRank(ThisCard.Rank), 'of', GetSuit(ThisCard.Suit))
+  print('Card is the', GetRank(ThisCard.Rank,AceHigh), 'of', GetSuit(ThisCard.Suit))
   print()
 
 def GetCard(ThisCard, Deck, NoOfCardsTurnedOver):
@@ -184,9 +225,9 @@ def DisplayRecentScores(RecentScores,today):
   print("")
   print('Recent Scores: ')
   print("")
-  print("Name     Score     Date".format(today))
+  print("Name     Score".format(today))
   for Count in range(1, NO_OF_RECENT_SCORES + 1):
-    print("{0}{1:>{2}}".format(RecentScores[Count].Name, RecentScores[Count].Score,12-(len(RecentScores[Count].Name))))
+    print("{0:<10}{1:<10}".format(RecentScores[Count].Name, RecentScores[Count].Score))
     print ("Date saved:{:%d/%m/%y}".format(today))
     print()
   print('Press the Enter key to return to the main menu')
@@ -219,14 +260,12 @@ def UpdateRecentScores(RecentScores, Score):
     print("")
     
     
-    
-
-def PlayGame(Deck, RecentScores):
+def PlayGame(Deck, RecentScores,AceHigh):
   LastCard = TCard()
   NextCard = TCard()
   GameOver = False
   GetCard(LastCard, Deck, 0)
-  DisplayCard(LastCard)
+  DisplayCard(LastCard,AceHigh)
   NoOfCardsTurnedOver = 1
   while (NoOfCardsTurnedOver < 52) and (not GameOver):
     GetCard(NextCard, Deck, NoOfCardsTurnedOver)
@@ -261,7 +300,8 @@ if __name__ == '__main__':
     if Choice == '1':
       LoadDeck(Deck)
       ShuffleDeck(Deck)
-      PlayGame(Deck, RecentScores)
+      AceHigh = SetOptionsHighOrLow()
+      PlayGame(Deck, RecentScores,AceHigh)
     elif Choice == '2':
       LoadDeck(Deck)
       PlayGame(Deck, RecentScores)
@@ -270,3 +310,5 @@ if __name__ == '__main__':
       DisplayRecentScores(RecentScores,today)
     elif Choice == '4':
       ResetRecentScores(RecentScores)
+    elif Choice == "5":
+      DisplayOptions()
