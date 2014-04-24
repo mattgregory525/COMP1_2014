@@ -22,13 +22,10 @@ Deck = [None]
 RecentScores = [None]
 Choice = ''
 
-def GetRank(RankNo,AceHigh):
+def GetRank(RankNo):
   
   Rank = ''
-  if RankNo == 1 and AceHigh == False:
-    Rank = "Ace"
-  elif RankNo == 1 and AceHigh == True:
-    RankNo == 14
+  if RankNo == 1:
     Rank = "Ace"
   elif RankNo == 2:
     Rank = 'Two'
@@ -67,31 +64,36 @@ def DisplayOptions():
   
   
 def GetOptionChoice():
-  Option = int(input(("Please enter your option: ")))
-  if Option == 1:
-    SetOptionsHighOrLow()
-  else:
-    print("error")
+
+  done = False
+  Options = ["1"]
+  while done == False:
+    Option = input(("Please enter your option: "))
+    if Option in Options:
+      SetAceHighOrLow()
+      done = True
+    elif Option not in Options:
+      print("Please enter a valid choice")
   
-def SetOptionsHighOrLow():
-  Value = input("Set Ace (h)igh or (l)ow: ")
+def SetAceHighOrLow():
+  
   high = ["H","h","High","high"]
   low = ["L","l","Low","low"]
   done = False
   while done == False:
+    Value = input("Set Ace (h)igh or (l)ow: ")
     if Value in high:
-      AceHigh = True
+      print("Ace set to high")
+      SetAceHigh = True
       done = True
-    
     elif Value in low:
-      AceHigh = False
+      SetAceHigh = False
+      print("Ace set to low")
       done = True
-    
-    else:
-      print("Error")
-  return AceHigh
-
-
+    else: print("Please enter a valid choice")
+  return SetAceHigh
+  
+  
 def GetSuit(SuitNo):
   Suit = ''
   if SuitNo == 1:
@@ -152,9 +154,9 @@ def ShuffleDeck(Deck):
     Deck[Position2].Rank = SwapSpace.Rank
     Deck[Position2].Suit = SwapSpace.Suit
 
-def DisplayCard(ThisCard,AceHigh):
+def DisplayCard(ThisCard):
   print()
-  print('Card is the', GetRank(ThisCard.Rank,AceHigh), 'of', GetSuit(ThisCard.Suit))
+  print('Card is the', GetRank(ThisCard.Rank), 'of', GetSuit(ThisCard.Suit))
   print()
 
 def GetCard(ThisCard, Deck, NoOfCardsTurnedOver):
@@ -260,12 +262,12 @@ def UpdateRecentScores(RecentScores, Score):
     print("")
     
     
-def PlayGame(Deck, RecentScores,AceHigh):
+def PlayGame(Deck, RecentScores):
   LastCard = TCard()
   NextCard = TCard()
   GameOver = False
   GetCard(LastCard, Deck, 0)
-  DisplayCard(LastCard,AceHigh)
+  DisplayCard(LastCard)
   NoOfCardsTurnedOver = 1
   while (NoOfCardsTurnedOver < 52) and (not GameOver):
     GetCard(NextCard, Deck, NoOfCardsTurnedOver)
@@ -300,8 +302,7 @@ if __name__ == '__main__':
     if Choice == '1':
       LoadDeck(Deck)
       ShuffleDeck(Deck)
-      AceHigh = SetOptionsHighOrLow()
-      PlayGame(Deck, RecentScores,AceHigh)
+      PlayGame(Deck, RecentScores)
     elif Choice == '2':
       LoadDeck(Deck)
       PlayGame(Deck, RecentScores)
