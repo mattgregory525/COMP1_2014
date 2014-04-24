@@ -70,7 +70,7 @@ def GetOptionChoice():
   while done == False:
     Option = input(("Please enter your option: "))
     if Option in Options:
-      SetAceHighOrLow()
+      SetAceHigh = SetAceHighOrLow()
       done = True
     elif Option not in Options:
       print("Please enter a valid choice")
@@ -168,10 +168,29 @@ def GetCard(ThisCard, Deck, NoOfCardsTurnedOver):
   Deck[52 - NoOfCardsTurnedOver].Suit = 0
   Deck[52 - NoOfCardsTurnedOver].Rank = 0
 
-def IsNextCardHigher(LastCard, NextCard):
+def IsNextCardHigher(LastCard, NextCard,SetAceHigh):
   Higher = False
-  if NextCard.Rank > LastCard.Rank:
-    Higher = True
+##Ace set to high
+
+  if SetAceHigh == True and NextCard.Rank == "Ace":
+    Higher = False
+
+  elif SetAceHigh == True and NextCard.Rank != "Ace":
+    if NextCard.Rank > LastCard.Rank:
+      Higher = True
+
+  elif SetAceHigh == True and LastCard.Rank == "Ace":
+    Higher = False
+
+  elif SetAceHigh == True and LastCard.Rank != "Ace":
+    if NextCard.Rank > LastCard.Rank:
+      Higher = True
+
+##Ace set to low
+  elif SetAceHigh == False:
+    Higher = False
+    if NextCard.Rank > LastCard.Rank:
+      Higher = True
   return Higher
 
 def GetPlayerName():
@@ -224,15 +243,16 @@ def Date():
   return today
  
 def DisplayRecentScores(RecentScores,today):
+  today = Date()
   print("")
   print('Recent Scores: ')
   print("")
-  print("Name     Score".format(today))
+  print("Name    Score      Date".format(today))
   for Count in range(1, NO_OF_RECENT_SCORES + 1):
-    print("{0:<10}{1:<10}".format(RecentScores[Count].Name, RecentScores[Count].Score))
-    print ("Date saved:{:%d/%m/%y}".format(today))
+    print("{0:<10}{1:<10}{2:<10}".format(RecentScores[Count].Name, RecentScores[Count].Score,today.strftime()))
+##    print("Date saved:{:%d/%m/%y}".format(today))
     print()
-  print('Press the Enter key to return to the main menu')
+ 
   
   
 
@@ -262,10 +282,14 @@ def UpdateRecentScores(RecentScores, Score):
     print("")
     
     
+##SetAceHigh = False
 def PlayGame(Deck, RecentScores):
   LastCard = TCard()
   NextCard = TCard()
   GameOver = False
+  ###
+  SetAceHigh = SetAceHighOrLow()
+  ###
   GetCard(LastCard, Deck, 0)
   DisplayCard(LastCard)
   NoOfCardsTurnedOver = 1
@@ -276,7 +300,7 @@ def PlayGame(Deck, RecentScores):
       Choice = GetChoiceFromUser()
     DisplayCard(NextCard)
     NoOfCardsTurnedOver = NoOfCardsTurnedOver + 1
-    Higher = IsNextCardHigher(LastCard, NextCard)
+    Higher = IsNextCardHigher(LastCard, NextCard,SetAceHigh)
     if (Higher and Choice == 'y') or (not Higher and Choice == 'n'):
       DisplayCorrectGuessMessage(NoOfCardsTurnedOver - 1)
       LastCard.Rank = NextCard.Rank
@@ -313,3 +337,4 @@ if __name__ == '__main__':
       ResetRecentScores(RecentScores)
     elif Choice == "5":
       DisplayOptions()
+      
