@@ -60,39 +60,31 @@ def DisplayOptions():
   print("")
   print("1. Set Ace to be high/low")
   print("")
-  GetOptionChoice()
-  
-  
+ 
+    
 def GetOptionChoice():
-
   done = False
-  Options = ["1"]
   while done == False:
-    Option = input(("Please enter your option: "))
-    if Option in Options:
+    Option = input("Please enter your option: ")
+    if Option == "1" :
       SetAceHigh = SetAceHighOrLow()
       done = True
-    elif Option not in Options:
-      print("Please enter a valid choice")
-  
+    elif Option == "2":
+      print("Option 2 selected")
+      done = True
+    
 def SetAceHighOrLow():
-  
-  high = ["H","h","High","high"]
-  low = ["L","l","Low","low"]
-  done = False
-  while done == False:
-    Value = input("Set Ace (h)igh or (l)ow: ")
-    if Value in high:
-      print("Ace set to high")
-      SetAceHigh = True
-      done = True
-    elif Value in low:
-      SetAceHigh = False
-      print("Ace set to low")
-      done = True
-    else: print("Please enter a valid choice")
+  Choice = input("Set ace (h)igh or (l)ow? :")
+  if Choice == "h":
+    SetAceHigh = True
+    done = True
+    print("Ace set to high")
+  elif Choice == "l":
+    SetAceHigh = False
+    done = True
+    print("Ace set to low")
   return SetAceHigh
-  
+ 
   
 def GetSuit(SuitNo):
   Suit = ''
@@ -168,29 +160,11 @@ def GetCard(ThisCard, Deck, NoOfCardsTurnedOver):
   Deck[52 - NoOfCardsTurnedOver].Suit = 0
   Deck[52 - NoOfCardsTurnedOver].Rank = 0
 
-def IsNextCardHigher(LastCard, NextCard,SetAceHigh):
+def IsNextCardHigher(LastCard, NextCard):
   Higher = False
-##Ace set to high
-
-  if SetAceHigh == True and NextCard.Rank == "Ace":
-    Higher = False
-
-  elif SetAceHigh == True and NextCard.Rank != "Ace":
-    if NextCard.Rank > LastCard.Rank:
+  if NextCard.Rank > LastCard.Rank:
       Higher = True
 
-  elif SetAceHigh == True and LastCard.Rank == "Ace":
-    Higher = False
-
-  elif SetAceHigh == True and LastCard.Rank != "Ace":
-    if NextCard.Rank > LastCard.Rank:
-      Higher = True
-
-##Ace set to low
-  elif SetAceHigh == False:
-    Higher = False
-    if NextCard.Rank > LastCard.Rank:
-      Higher = True
   return Higher
 
 def GetPlayerName():
@@ -240,6 +214,7 @@ def ResetRecentScores(RecentScores):
 def Date():
   import datetime
   today = datetime.date.today()
+  today = today.strftime("%d/%m/%y")
   return today
  
 def DisplayRecentScores(RecentScores,today):
@@ -247,11 +222,12 @@ def DisplayRecentScores(RecentScores,today):
   print("")
   print('Recent Scores: ')
   print("")
-  print("Name    Score      Date".format(today))
+  print("{0:<10}{1:<10}{2:<10}".format("Name","Score","Date"))
   for Count in range(1, NO_OF_RECENT_SCORES + 1):
-    print("{0:<10}{1:<10}{2:<10}".format(RecentScores[Count].Name, RecentScores[Count].Score,today.strftime()))
-##    print("Date saved:{:%d/%m/%y}".format(today))
-    print()
+    if len(RecentScores[Count].Name)>=1:
+      print("---------------------------")
+      print("{0:<10}{1:<9}{2:<10}".format(RecentScores[Count].Name, RecentScores[Count].Score,today))
+      print("---------------------------")
  
   
   
@@ -281,15 +257,11 @@ def UpdateRecentScores(RecentScores, Score):
     print("Score ignored")
     print("")
     
-    
-##SetAceHigh = False
+
 def PlayGame(Deck, RecentScores):
   LastCard = TCard()
   NextCard = TCard()
   GameOver = False
-  ###
-  SetAceHigh = SetAceHighOrLow()
-  ###
   GetCard(LastCard, Deck, 0)
   DisplayCard(LastCard)
   NoOfCardsTurnedOver = 1
@@ -300,7 +272,7 @@ def PlayGame(Deck, RecentScores):
       Choice = GetChoiceFromUser()
     DisplayCard(NextCard)
     NoOfCardsTurnedOver = NoOfCardsTurnedOver + 1
-    Higher = IsNextCardHigher(LastCard, NextCard,SetAceHigh)
+    Higher = IsNextCardHigher(LastCard, NextCard)
     if (Higher and Choice == 'y') or (not Higher and Choice == 'n'):
       DisplayCorrectGuessMessage(NoOfCardsTurnedOver - 1)
       LastCard.Rank = NextCard.Rank
@@ -337,4 +309,9 @@ if __name__ == '__main__':
       ResetRecentScores(RecentScores)
     elif Choice == "5":
       DisplayOptions()
+      GetOptionChoice()
+      
+     
+      
+        
       
