@@ -21,6 +21,8 @@ class TRecentScore():
 Deck = [None]
 RecentScores = [None]
 Choice = ''
+SetAceHigh = None 
+
 
 def GetRank(RankNo):
   
@@ -63,15 +65,17 @@ def DisplayOptions():
  
     
 def GetOptionChoice():
-  done = False
-  while done == False:
-    Option = input("Please enter your option: ")
-    if Option == "1" :
-      SetAceHigh = SetAceHighOrLow()
-      done = True
-    elif Option == "2":
-      print("Option 2 selected")
-      done = True
+  Option = input("Please enter your option: ")
+  return Option
+
+
+def SetOptions(Option):
+  if Option == 1:
+    SetAceHigh = SetAceHighOrLow()
+    return SeAceHigh
+  elif Option == 2:
+    print("Option 2 ")
+  
     
 def SetAceHighOrLow():
   Choice = input("Set ace (h)igh or (l)ow? :")
@@ -84,7 +88,7 @@ def SetAceHighOrLow():
     done = True
     print("Ace set to low")
   return SetAceHigh
- 
+
   
 def GetSuit(SuitNo):
   Suit = ''
@@ -160,11 +164,23 @@ def GetCard(ThisCard, Deck, NoOfCardsTurnedOver):
   Deck[52 - NoOfCardsTurnedOver].Suit = 0
   Deck[52 - NoOfCardsTurnedOver].Rank = 0
 
-def IsNextCardHigher(LastCard, NextCard):
+def IsNextCardHigher(LastCard, NextCard,SetAceHigh):
   Higher = False
-  if NextCard.Rank > LastCard.Rank:
+  if SetAceHigh == None:
+    if NextCard.Rank > LastCard.Rank:
       Higher = True
 
+  if SetAceHigh == False:
+    if NextCard.Rank > LastCard.Rank:
+      Higher = True
+  
+  elif SetAceHigh == True:
+    if NextCard.Rank == 1:
+      Higher = True
+    elif LastCard.Rank == 1:
+      Higher = False
+    elif NextCard.Rank > LastCard.Rank:
+      Higher = True
   return Higher
 
 def GetPlayerName():
@@ -272,7 +288,7 @@ def PlayGame(Deck, RecentScores):
       Choice = GetChoiceFromUser()
     DisplayCard(NextCard)
     NoOfCardsTurnedOver = NoOfCardsTurnedOver + 1
-    Higher = IsNextCardHigher(LastCard, NextCard)
+    Higher = IsNextCardHigher(LastCard, NextCard,SetAceHigh)
     if (Higher and Choice == 'y') or (not Higher and Choice == 'n'):
       DisplayCorrectGuessMessage(NoOfCardsTurnedOver - 1)
       LastCard.Rank = NextCard.Rank
@@ -309,7 +325,10 @@ if __name__ == '__main__':
       ResetRecentScores(RecentScores)
     elif Choice == "5":
       DisplayOptions()
-      GetOptionChoice()
+      Option = GetOptionChoice()
+      SetOptions(Option)
+      SetAceHigh = SetAceHighOrLow()
+
       
      
       
