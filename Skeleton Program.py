@@ -21,7 +21,20 @@ class TRecentScore():
 Deck = [None]
 RecentScores = [None]
 Choice = ''
-SetAceHigh = None 
+SetAceHigh = False
+
+def BubbleSortScores(RecentScores):
+  ##RecentScores is a record, so use attributes somehow 
+  Swapped = True
+  while Swapped:
+    Swapped = False
+    for count in range(len(RecentScores)-1):
+      if RecentScores[count] > RecentScores[count+1]:
+        temp = RecentScores[count]
+        RecentScores[count] = RecentScores[count+1]
+        RecentScores[count+1] = temp
+        Swapped = True
+  return RecentScores
 
 
 def GetRank(RankNo):
@@ -166,9 +179,6 @@ def GetCard(ThisCard, Deck, NoOfCardsTurnedOver):
 
 def IsNextCardHigher(LastCard, NextCard,SetAceHigh):
   Higher = False
-  if SetAceHigh == None:
-    if NextCard.Rank > LastCard.Rank:
-      Higher = True
 
   if SetAceHigh == False:
     if NextCard.Rank > LastCard.Rank:
@@ -320,6 +330,7 @@ if __name__ == '__main__':
       PlayGame(Deck, RecentScores)
     elif Choice == '3':
       today = Date()
+      BubbleSortScores(RecentScores)
       DisplayRecentScores(RecentScores,today)
     elif Choice == '4':
       ResetRecentScores(RecentScores)
