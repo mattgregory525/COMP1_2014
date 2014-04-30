@@ -23,18 +23,18 @@ RecentScores = [None]
 Choice = ''
 SetAceHigh = False
 
-def BubbleSortScores(RecentScores):
-  ##RecentScores is a record, so use attributes somehow 
-  Swapped = True
-  while Swapped:
-    Swapped = False
-    for count in range(len(RecentScores)-1):
-      if RecentScores[count] > RecentScores[count+1]:
-        temp = RecentScores[count]
-        RecentScores[count] = RecentScores[count+1]
-        RecentScores[count+1] = temp
-        Swapped = True
-  return RecentScores
+##def BubbleSortScores(RecentScores):
+##  ##RecentScores is a record, so use attributes somehow 
+##  Swapped = True
+##  while Swapped:
+##    Swapped = False
+##    for count in range(len(RecentScores)-1):
+##      if RecentScores[count] > RecentScores[count+1]:
+##        temp = RecentScores[count]
+##        RecentScores[count] = RecentScores[count+1]
+##        RecentScores[count+1] = temp
+##        Swapped = True
+##  return RecentScores
 
 
 def GetRank(RankNo):
@@ -78,28 +78,44 @@ def DisplayOptions():
  
     
 def GetOptionChoice():
-  Option = input("Please enter your option: ")
-  return Option
-
+  done = False
+  Options = ["1","2"]
+  while done == False:
+    Option = input("Please enter your option: ")
+    if Option in Options :
+      done = True
+      return Option
+    else:
+      print("")
+      print("Please enter a valid option")
 
 def SetOptions(Option):
-  if Option == 1:
+  if Option == "1":
     SetAceHigh = SetAceHighOrLow()
-    return SeAceHigh
-  elif Option == 2:
+  elif Option == "2":
     print("Option 2 ")
   
     
 def SetAceHighOrLow():
-  Choice = input("Set ace (h)igh or (l)ow? :")
-  if Choice == "h":
-    SetAceHigh = True
-    done = True
-    print("Ace set to high")
-  elif Choice == "l":
-    SetAceHigh = False
-    done = True
-    print("Ace set to low")
+  done = False
+  High = ["H","h","High","high"]
+  Low = ["L","l","Low","low"]
+  while done == False:
+    print("")
+    Choice = input("Set ace (h)igh or (l)ow? :")
+    print("")
+    if Choice in High:
+      SetAceHigh = True
+      done = True
+      print("Ace set to high")
+    elif Choice in Low:
+      SetAceHigh = False
+      done = True
+      print("Ace set to low")
+    else:
+      print("")
+      print("Please enter a valid option")
+      print("")
   return SetAceHigh
 
   
@@ -338,7 +354,6 @@ if __name__ == '__main__':
       DisplayOptions()
       Option = GetOptionChoice()
       SetOptions(Option)
-      SetAceHigh = SetAceHighOrLow()
 
       
      
