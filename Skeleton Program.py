@@ -29,12 +29,10 @@ def BubbleSortScores(RecentScores):
     Swapped = False
     for count in range(len(RecentScores)-2):
       if RecentScores[count+1].Score < RecentScores[count+2].Score:
-        temp = RecentScores[count+1].Score
-        RecentScores[count+1].Score = RecentScores[count+2].Score
-        RecentScores[count+2].Score = temp
+        temp = RecentScores[count+1]
+        RecentScores[count+1] = RecentScores[count+2]
+        RecentScores[count+2] = temp
         Swapped = True
-  return RecentScores
-
 
 def GetRank(RankNo):
   
@@ -139,7 +137,8 @@ def DisplayMenu():
   print('3. Display recent scores')
   print('4. Reset recent scores')
   print("5. Options")
-  print()
+  print("6. Save scores")
+  print("")
   print('Select an option from the menu (or enter q to quit): ', end='')
 
 def GetMenuChoice():
@@ -299,6 +298,17 @@ def UpdateRecentScores(RecentScores, Score):
     print("")
     
 
+
+def SaveScores(RecentScores):
+  with open("save_scores.txt.",mode="w",encoding="utf-8") as my_file:
+    for each in range(1,NO_OF_RECENT_SCORES):
+      my_file.write(RecentScores[each].Name)
+      RecentScores[each].Score = str(RecentScores[each].Score)
+      my_file.write(RecentScores[each].Score)
+    
+
+
+
 def PlayGame(Deck, RecentScores):
   LastCard = TCard()
   NextCard = TCard()
@@ -353,6 +363,8 @@ if __name__ == '__main__':
       DisplayOptions()
       Option = GetOptionChoice()
       SetOptions(Option)
+    elif Choice == "6":
+       SaveScores(RecentScores)
 
       
      
