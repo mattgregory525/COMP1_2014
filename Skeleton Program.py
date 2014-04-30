@@ -23,18 +23,17 @@ RecentScores = [None]
 Choice = ''
 SetAceHigh = False
 
-##def BubbleSortScores(RecentScores):
-##  ##RecentScores is a record, so use attributes somehow 
-##  Swapped = True
-##  while Swapped:
-##    Swapped = False
-##    for count in range(len(RecentScores)-1):
-##      if RecentScores[count] > RecentScores[count+1]:
-##        temp = RecentScores[count]
-##        RecentScores[count] = RecentScores[count+1]
-##        RecentScores[count+1] = temp
-##        Swapped = True
-##  return RecentScores
+def BubbleSortScores(RecentScores):
+  Swapped = True
+  while Swapped:
+    Swapped = False
+    for count in range(len(RecentScores)-2):
+      if RecentScores[count+1].Score < RecentScores[count+2].Score:
+        temp = RecentScores[count+1].Score
+        RecentScores[count+1].Score = RecentScores[count+2].Score
+        RecentScores[count+2].Score = temp
+        Swapped = True
+  return RecentScores
 
 
 def GetRank(RankNo):
