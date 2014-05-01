@@ -17,6 +17,8 @@ class TRecentScore():
   def __init__(self):
     self.Name = ''
     self.Score = 0
+    self.Date = None
+    
 
 Deck = [None]
 RecentScores = [None]
@@ -292,6 +294,8 @@ def UpdateRecentScores(RecentScores, Score):
       Count = NO_OF_RECENT_SCORES
     RecentScores[Count].Name = PlayerName
     RecentScores[Count].Score = Score
+    today = Date()
+    RecentScores[Count].Date = today
   elif AddScore in No:
     print("")
     print("Score ignored")
@@ -305,10 +309,19 @@ def SaveScores(RecentScores):
       my_file.write(RecentScores[each].Name+"\n")
       today = Date()
       my_file.write(today+"\n")
-      RecentScores[each].Score = str(RecentScores[each].Score)
-      my_file.write(RecentScores[each].Score+"\n")
+      my_file.write (str(RecentScores[each].Score)+"\n")
 
 
+def LoadScores():
+  with open("save_scores.txt.",mode="r",encoding="utf-8") as my_file:
+    for line in my_file:
+      line = RecentScores[1].Name
+      line +1 = RecentScores[1].Date
+      line+2 = RecentScores[1].Score
+    
+
+      
+      
 def PlayGame(Deck, RecentScores):
   LastCard = TCard()
   NextCard = TCard()
