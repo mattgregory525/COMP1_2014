@@ -301,12 +301,12 @@ def UpdateRecentScores(RecentScores, Score):
 
 def SaveScores(RecentScores):
   with open("save_scores.txt.",mode="w",encoding="utf-8") as my_file:
-    for each in range(1,NO_OF_RECENT_SCORES):
-      my_file.write(RecentScores[each].Name)
+    for each in range(1,NO_OF_RECENT_SCORES + 1):
+      my_file.write(RecentScores[each].Name+"\n")
+      today = Date()
+      my_file.write(today+"\n")
       RecentScores[each].Score = str(RecentScores[each].Score)
-      my_file.write(RecentScores[each].Score)
-    
-
+      my_file.write(RecentScores[each].Score+"\n")
 
 
 def PlayGame(Deck, RecentScores):
