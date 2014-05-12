@@ -4,7 +4,7 @@
 # developed in the Python 3.2 programming environment
 # version 2 edited 06/03/2014
 
-import random
+import random, datetime
 
 NO_OF_RECENT_SCORES = 3
 
@@ -252,15 +252,10 @@ def ResetRecentScores(RecentScores):
   for Count in range(1, NO_OF_RECENT_SCORES + 1):
     RecentScores[Count].Name = ''
     RecentScores[Count].Score = 0
+    RecentScores[Count].Date = None
 
-def Date():
-  import datetime
-  today = datetime.date.today()
-  today = today.strftime("%d/%m/%y")
-  return today
- 
-def DisplayRecentScores(RecentScores,today):
-  today = Date()
+
+def DisplayRecentScores(RecentScores):
   print("")
   print('Recent Scores: ')
   print("")
@@ -268,7 +263,7 @@ def DisplayRecentScores(RecentScores,today):
   for Count in range(1, NO_OF_RECENT_SCORES + 1):
     if len(RecentScores[Count].Name)>=1:
       print("---------------------------")
-      print("{0:<10}{1:<9}{2:<10}".format(RecentScores[Count].Name, RecentScores[Count].Score,today))
+      print("{0:<10}{1:<9}{2:<10}".format(RecentScores[Count].Name, RecentScores[Count].Score,RecentScores[Count].Date))
       print("---------------------------")
  
   
@@ -294,8 +289,8 @@ def UpdateRecentScores(RecentScores, Score):
       Count = NO_OF_RECENT_SCORES
     RecentScores[Count].Name = PlayerName
     RecentScores[Count].Score = Score
-    today = Date()
-    RecentScores[Count].Date = today
+    DateNow = datetime.date.today()
+    RecentScores[Count].Date = DateNow.strftime("%d/%m/%y")
   elif AddScore in No:
     print("")
     print("Score ignored")
@@ -307,20 +302,24 @@ def SaveScores(RecentScores):
   with open("save_scores.txt.",mode="w",encoding="utf-8") as my_file:
     for each in range(1,NO_OF_RECENT_SCORES + 1):
       my_file.write(RecentScores[each].Name+"\n")
-      today = Date()
-      my_file.write(today+"\n")
-      my_file.write (str(RecentScores[each].Score)+"\n")
+      my_file.write(str(RecentScores[each].Score)+"\n")
+      my_file.write(str(RecentScores[each].Date)+"\n")
 
+##
+##def LoadScores():
+##  with open("save_scores.txt.",mode="r",encoding="utf-8") as my_file:
+##    for line in my_file:
+##      = RecentScores[1].Name
+##      = RecentScores[1].Date
+##      = RecentScores[1].Score
+##      = RecentScores[2].Name
+##      = RecentScores[2].Date
+##      = RecentScores[2].Score
+##      = RecentScores[3].Name
+##      = RecentScores[3].Date
+##      = RecentScores[3].Score
+##    
 
-def LoadScores():
-  with open("save_scores.txt.",mode="r",encoding="utf-8") as my_file:
-    for line in my_file:
-      line = RecentScores[1].Name
-      line +1 = RecentScores[1].Date
-      line+2 = RecentScores[1].Score
-    
-
-      
       
 def PlayGame(Deck, RecentScores):
   LastCard = TCard()
@@ -367,9 +366,8 @@ if __name__ == '__main__':
       LoadDeck(Deck)
       PlayGame(Deck, RecentScores)
     elif Choice == '3':
-      today = Date()
       BubbleSortScores(RecentScores)
-      DisplayRecentScores(RecentScores,today)
+      DisplayRecentScores(RecentScores)
     elif Choice == '4':
       ResetRecentScores(RecentScores)
     elif Choice == "5":
