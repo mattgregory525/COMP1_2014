@@ -305,22 +305,16 @@ def SaveScores(RecentScores):
       my_file.write(str(RecentScores[each].Score)+"\n")
       my_file.write(str(RecentScores[each].Date)+"\n")
 
-##
-##def LoadScores():
-##  with open("save_scores.txt.",mode="r",encoding="utf-8") as my_file:
-##    for line in my_file:
-##      = RecentScores[1].Name
-##      = RecentScores[1].Date
-##      = RecentScores[1].Score
-##      = RecentScores[2].Name
-##      = RecentScores[2].Date
-##      = RecentScores[2].Score
-##      = RecentScores[3].Name
-##      = RecentScores[3].Date
-##      = RecentScores[3].Score
-##    
 
-      
+def LoadScores():
+  with open("save_scores.txt.",mode="r",encoding="utf-8") as my_file:
+    for run in range (1,NO_OF_RECENT_SCORES+1):
+      RecentScores[run].Name = my_file.readline()
+      RecentScores[run].Score = my_file.readline()
+      RecentScores[run].Date = my_file.readline()
+  return RecentScores
+ 
+
 def PlayGame(Deck, RecentScores):
   LastCard = TCard()
   NextCard = TCard()
@@ -356,6 +350,7 @@ if __name__ == '__main__':
     RecentScores.append(TRecentScore())
   Choice = ''
   while Choice != 'q':
+    LoadScores()
     DisplayMenu()
     Choice = GetMenuChoice()
     if Choice == '1':
