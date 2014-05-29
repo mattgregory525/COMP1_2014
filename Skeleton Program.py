@@ -24,6 +24,7 @@ Deck = [None]
 RecentScores = [None]
 Choice = ''
 SetAceHigh = False
+SameCardHigher = False
 
 def BubbleSortScores(RecentScores):
   Swapped = True
@@ -73,7 +74,7 @@ def DisplayOptions():
   print("Option menu")
   print("")
   print("1. Set Ace to be high/low")
-  print("")
+  print("2. Set same card to end/not end game")
  
     
 def GetOptionChoice():
@@ -117,7 +118,9 @@ def SetAceHighOrLow():
       print("")
   return SetAceHigh
 
-  
+def SetSameScore():
+
+
 def GetSuit(SuitNo):
   Suit = ''
   if SuitNo == 1:
@@ -267,8 +270,6 @@ def DisplayRecentScores(RecentScores):
       print("---------------------------")
  
   
-  
-
 def UpdateRecentScores(RecentScores, Score):
   AddScore = input("Add name to scores? (Y/N):")
   Yes = ["Y","y","Yes","yes"]
@@ -307,15 +308,6 @@ def SaveScores(RecentScores):
   print("File saved") 
 
 
-def LoadScores():
-  with open("save_scores.txt.",mode="r",encoding="utf-8") as my_file:
-    for line in range (1,NO_OF_RECENT_SCORES+1):
-      RecentScores[line].Name = (my_file.readline().rstrip("/n"))
-      RecentScores[line].Score = (my_file.readline().rstrip("/n"))
-      RecentScores[line].Date = (my_file.readline().rstrip("/n"))
-      print(RecentScores[line].Name,RecentScores[line].Score,RecentScores[line].Date)
-
-
 def PlayGame(Deck, RecentScores):
   LastCard = TCard()
   NextCard = TCard()
@@ -351,7 +343,6 @@ if __name__ == '__main__':
     RecentScores.append(TRecentScore())
   Choice = ''
   while Choice != 'q':
-    LoadScores()
     DisplayMenu()
     Choice = GetMenuChoice()
     if Choice == '1':
