@@ -74,7 +74,8 @@ def DisplayOptions():
   print("Option menu")
   print("")
   print("1. Set Ace to be high/low")
-  print("2. Set same card to end/not end game")
+  print("2. Set same card to higher/lower")
+  print("")
  
     
 def GetOptionChoice():
@@ -93,7 +94,7 @@ def SetOptions(Option):
   if Option == "1":
     SetAceHigh = SetAceHighOrLow()
   elif Option == "2":
-    print("Option 2 ")
+    SameCardHigher = SetSameScore()
   
     
 def SetAceHighOrLow():
@@ -119,8 +120,28 @@ def SetAceHighOrLow():
   return SetAceHigh
 
 def SetSameScore():
-
-
+  done = False
+  High = ["H","h","High","high"]
+  Low = ["L","l","Low","low"]
+  while done == False:
+    print("")
+    Choice = input("If cards are the same, next card will be (h)igh or (l)ow :")
+    print("")
+    if Choice in High:
+      SameCardHigher = True
+      done = True
+      print("Same card value set to high")
+    elif Choice in Low:
+      SameCardHigher = False
+      done = True
+      print("Same card value set to low")
+    else:
+      print("")
+      print("Please enter a valid option")
+      print("")
+  return SameCardHigher
+  
+  
 def GetSuit(SuitNo):
   Suit = ''
   if SuitNo == 1:
@@ -196,20 +217,25 @@ def GetCard(ThisCard, Deck, NoOfCardsTurnedOver):
   Deck[52 - NoOfCardsTurnedOver].Suit = 0
   Deck[52 - NoOfCardsTurnedOver].Rank = 0
 
-def IsNextCardHigher(LastCard, NextCard,SetAceHigh):
+def IsNextCardHigher(LastCard, NextCard,SetAceHigh,SameCardHigher):
   Higher = False
 
-  if SetAceHigh == False:
-    if NextCard.Rank > LastCard.Rank:
+  if LastCard.Rank == NextCard.Rank and SameCardHigher == True:
       Higher = True
+  else:
   
-  elif SetAceHigh == True:
-    if NextCard.Rank == 1:
-      Higher = True
-    elif LastCard.Rank == 1:
-      Higher = False
-    elif NextCard.Rank > LastCard.Rank:
-      Higher = True
+    if SetAceHigh == False:
+      if NextCard.Rank > LastCard.Rank:
+        Higher = True
+
+    elif SetAceHigh == True:
+      if NextCard.Rank == 1:
+        Higher = True
+      elif LastCard.Rank == 1:
+        Higher = False
+      elif NextCard.Rank > LastCard.Rank:
+        Higher = True
+
   return Higher
 
 def GetPlayerName():
@@ -322,7 +348,7 @@ def PlayGame(Deck, RecentScores):
       Choice = GetChoiceFromUser()
     DisplayCard(NextCard)
     NoOfCardsTurnedOver = NoOfCardsTurnedOver + 1
-    Higher = IsNextCardHigher(LastCard, NextCard,SetAceHigh)
+    Higher = IsNextCardHigher(LastCard, NextCard,SetAceHigh,SameCardHigher)
     if (Higher and Choice == 'y') or (not Higher and Choice == 'n'):
       DisplayCorrectGuessMessage(NoOfCardsTurnedOver - 1)
       LastCard.Rank = NextCard.Rank
